@@ -6,7 +6,6 @@
     <title>Inscribing Atlantis - Submission Page</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap');
-
         body {
             font-family: 'Space Grotesk', sans-serif;
             background-color: #121212;
@@ -23,46 +22,11 @@
             margin: 0 auto;
             box-sizing: border-box;
         }
-        .logo {
-            display: block;
-            margin: 0 auto 1rem;
-            max-width: 150px;
-            width: 80%;
-        }
         h1 {
             text-align: center;
             color: #ff9800;
             margin-bottom: 0.5rem;
             font-size: 1.5rem;
-        }
-        .specs {
-            background-color: #2c2c2c;
-            border-radius: 8px;
-            padding: 1rem;
-            margin-bottom: 1rem;
-        }
-        .specs h2 {
-            color: #ff9800;
-            margin-top: 0;
-            margin-bottom: 0.5rem;
-            font-size: 1rem;
-        }
-        .specs ul {
-            list-style-type: none;
-            padding: 0;
-            margin: 0;
-        }
-        .specs li {
-            margin-bottom: 0.5rem;
-            font-size: 0.9rem;
-        }
-        .specs strong {
-            color: #ff9800;
-        }
-        .wall-grid {
-            width: 100%;
-            border-radius: 8px;
-            margin-bottom: 1rem;
         }
         form {
             display: flex;
@@ -92,65 +56,17 @@
         button:hover {
             background-color: #ffa726;
         }
-        .input-label {
-            font-size: 0.9rem;
-            margin-bottom: 0.25rem;
-            color: #ff9800;
-        }
-        @media (max-width: 600px) {
-            body {
-                background-color: #1e1e1e;
-            }
-            .container {
-                padding: 1rem;
-            }
-            h1 {
-                font-size: 1.2rem;
-            }
-            .specs h2 {
-                font-size: 0.9rem;
-            }
-            .specs li {
-                font-size: 0.8rem;
-            }
-            .input-label {
-                font-size: 0.8rem;
-            }
-            input, textarea, button {
-                font-size: 0.9rem;
-            }
-        }
     </style>
 </head>
 <body>
     <div class="container">
-        <img src="https://i.ibb.co/T2PfSTr/insams-semicircle-white.png" alt="Inscribing Atlantis Logo" class="logo">
         <h1>Inscribing Atlantis</h1>
-        <div class="specs">
-            <h2>Submission Specifications</h2>
-            <ul>
-                <li><strong>Duration:</strong> 60 second loop</li>
-                <li><strong>Resolution:</strong> 12600x2016</li>
-                <li><strong>Codec:</strong> DXV3 (best) or Pro-Res 422 LT (runner up)</li>
-            </ul>
-        </div>
-        <img src="https://i.ibb.co/wsPPX6R/Wall-Grid-Photo.jpg" alt="Wall Grid Photo" class="wall-grid">
         <form id="submission-form">
-            <div class="input-label">Name</div>
             <input type="text" id="name" name="name" placeholder="Your Name" required>
-
-            <div class="input-label">𝕏 Username</div>
             <input type="text" id="twitter" name="twitter" placeholder="@username" required>
-            
-            <div class="input-label">Community Name</div>
             <input type="text" id="community" name="community" placeholder="Community or Project Name" required>
-            
-            <div class="input-label">Media File Sharing Link</div>
-            <input type="url" id="file-link" name="file-link" placeholder="Dropbox, Google Drive, or other file sharing link for your submission" required>
-            
-            <div class="input-label">Notes</div>
-            <textarea id="notes" name="notes" placeholder="Any additional information" rows="4"></textarea>
-            
+            <input type="url" id="file-link" name="file-link" placeholder="File sharing link" required>
+            <textarea id="notes" name="notes" placeholder="Additional information" rows="4"></textarea>
             <button type="submit">Submit</button>
         </form>
     </div>
@@ -169,14 +85,17 @@
                     'notes': $('#notes').val()
                 };
 
+                console.log("Form Data: ", formData);
+
                 $.ajax({
-                    url: 'https://script.google.com/macros/s/AKfycbwvjp9hFxcPSQZKHaDLpGLMAnHaLW2jyvizHd3oFvrQfEb8aDtZL72AItzscBcGSWQJbw/exec',
+                    url: 'https://script.google.com/macros/s/AKfycbz1NqWSWmst6aHHizUxAnm-VACmYIH1ncwVWe2NjPLSZ04tKiE6Y5UCXRIfyiDacwerIg/exec',
                     type: 'POST',
                     data: JSON.stringify(formData),
                     contentType: 'text/plain',
                     dataType: 'json',
                     crossDomain: true,
                     success: function(response) {
+                        console.log("Response: ", response);
                         if (response.result === 'success') {
                             alert('Submission successful! ' + response.message);
                             $('#submission-form')[0].reset();
@@ -185,10 +104,11 @@
                         }
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
+                        console.error("Submission Error: ", textStatus, errorThrown);
                         alert('Error submitting form: ' + textStatus + ' - ' + errorThrown);
                     }
                 });
-
+            });
         });
     </script>
 </body>

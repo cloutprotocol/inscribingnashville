@@ -170,10 +170,12 @@
                 };
 
                 $.ajax({
-                    url: 'https://script.google.com/macros/s/AKfycbxj24xw3BvgD_uHS2gxwkyzzR1TFYRAdBFcB4A-_NhC-5TFh5zkUxG6d4Ivsf1eAiodHQ/exec',
+                    url: 'https://script.google.com/macros/s/AKfycbz1NqWSWmst6aHHizUxAnm-VACmYIH1ncwVWe2NjPLSZ04tKiE6Y5UCXRIfyiDacwerIg/exec',
                     type: 'POST',
-                    data: formData,
+                    data: JSON.stringify(formData),
+                    contentType: 'text/plain',
                     dataType: 'json',
+                    crossDomain: true,
                     success: function(response) {
                         if (response.result === 'success') {
                             alert('Submission successful! ' + response.message);

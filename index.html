@@ -71,43 +71,38 @@
         </form>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script>
-        $(document).ready(function() {
-            $('#submission-form').submit(function(e) {
-                e.preventDefault();
-                
-                var formData = {
-                    'name': $('#name').val(),
-                    'twitter': $('#twitter').val(),
-                    'community': $('#community').val(),
-                    'file_link': $('#file-link').val(),
-                    'notes': $('#notes').val()
-                };
+        document.getElementById('submission-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            var formData = {
+                'name': document.getElementById('name').value,
+                'twitter': document.getElementById('twitter').value,
+                'community': document.getElementById('community').value,
+                'file_link': document.getElementById('file-link').value,
+                'notes': document.getElementById('notes').value
+            };
 
-                console.log("Form Data: ", formData);
-
-                $.ajax({
-                    url: 'https://script.google.com/macros/s/AKfycbwvjp9hFxcPSQZKHaDLpGLMAnHaLW2jyvizHd3oFvrQfEb8aDtZL72AItzscBcGSWQJbw/exec',
-                    type: 'POST',
-                    data: JSON.stringify(formData),
-                    contentType: 'text/plain',
-                    dataType: 'json',
-                    crossDomain: true,
-                    success: function(response) {
-                        console.log("Response: ", response);
-                        if (response.result === 'success') {
-                            alert('Submission successful! ' + response.message);
-                            $('#submission-form')[0].reset();
-                        } else {
-                            alert('Error: ' + response.message);
-                        }
-                    },
-                    error: function(jqXHR, textStatus, errorThrown) {
-                        console.error("Submission Error: ", textStatus, errorThrown);
-                        alert('Error submitting form: ' + textStatus + ' - ' + errorThrown);
-                    }
-                });
+            fetch('https://script.google.com/macros/s/AKfycby3JOa-dKxAVyTO_b4QRM_AFWktWqLWOj2-PN2XcDdJkY72iy9FwkCpl-9_R24UKTy54A/exec', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'text/plain;charset=utf-8'
+                },
+                body: JSON.stringify(formData),
+                redirect: 'follow'
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.result === 'success') {
+                    alert('Submission successful! ' + data.message);
+                    document.getElementById('submission-form').reset();
+                } else {
+                    alert('Error: ' + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error submitting form: ' + error);
             });
         });
     </script>

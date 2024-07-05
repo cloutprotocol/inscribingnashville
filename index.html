@@ -170,15 +170,20 @@
                 };
 
                 $.ajax({
-                    url: 'https://cors-anywhere.herokuapp.com/https://script.google.com/macros/s/AKfycbwCPhXR0qUERKMg8QGURIswZyVkMSNfy7pl0P6r-WN65Bhjj3dvTaQMXlTmr5jdeHiWiA/exec',
+                    url: 'https://script.google.com/macros/s/AKfycbxj24xw3BvgD_uHS2gxwkyzzR1TFYRAdBFcB4A-_NhC-5TFh5zkUxG6d4Ivsf1eAiodHQ/exec',
                     type: 'POST',
                     data: formData,
+                    dataType: 'json',
                     success: function(response) {
-                        alert('Submission successful!');
-                        $('#submission-form')[0].reset();
+                        if (response.result === 'success') {
+                            alert('Submission successful! ' + response.message);
+                            $('#submission-form')[0].reset();
+                        } else {
+                            alert('Error: ' + response.message);
+                        }
                     },
-                    error: function(error) {
-                        alert('Error submitting form. Please try again.');
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        alert('Error submitting form: ' + textStatus + ' - ' + errorThrown);
                     }
                 });
             });

@@ -83,7 +83,7 @@
                 'notes': document.getElementById('notes').value
             };
 
-            fetch('https://script.google.com/macros/s/AKfycbz1NqWSWmst6aHHizUxAnm-VACmYIH1ncwVWe2NjPLSZ04tKiE6Y5UCXRIfyiDacwerIg/exec', {
+            fetch('https://script.google.com/macros/s/AKfycby9q_4a5rO199o7hnNOojHKmmvVBnjmyIlf6W5wN02sfUfqd_pfeQ0yF8a7Dw3r4HUf-w/exec', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'text/plain;charset=utf-8'
@@ -91,7 +91,12 @@
                 body: JSON.stringify(formData),
                 redirect: 'follow'
             })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
             .then(data => {
                 if (data.result === 'success') {
                     alert('Submission successful! ' + data.message);
